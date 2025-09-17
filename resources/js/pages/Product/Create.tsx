@@ -1,15 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
+import SearchDropdown from '../../components/SearchDropdown';
 
 export default function Create() {
-	const { data, setData, post, processing, errors } = useForm({
-		name: '',
-		category_id: '',
-		supplier_id: '',
-		price: '',
-		quantity: ''
-	});
 	const page = usePage();
 	const props = page.props as unknown as { 
         categories?: any[]; 
@@ -18,6 +12,17 @@ export default function Create() {
     };
 	const categories = props.categories || [];
 	const suppliers = props.suppliers || [];
+
+    const categoryOptions = categories.map(c => ({ value: c.id.toString(), label: c.name }));
+    const supplierOptions = suppliers.map(s => ({ value: s.id.toString(), label: s.name }));
+
+	const { data, setData, post, processing, errors } = useForm({
+		name: '',
+		category_id: '',
+		supplier_id: '',
+		price: '',
+		quantity: ''
+	});
     
     React.useEffect(() => {
         if (props.selectedSupplierId) {
@@ -69,29 +74,28 @@ export default function Create() {
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-700">Category</label>
-                                <select
-                                    value={data.category_id}
-                                    onChange={e => setData('category_id', e.target.value)}
-                                    className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-info focus:ring-info sm:text-sm text-black"
-                                    required
-                                >
-                                    <option value="">Select a category</option>
-                                    {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-                                </select>
+                                <div className="mt-1 text-black">
+                                    <SearchDropdown
+                                        options={categoryOptions}
+                                        value={data.category_id}
+                                        onChange={(value: string) => setData('category_id', value)}
+                                        placeholder="Select a category"
+                                    />
+                                </div>
                                 {errors.category_id && <div className="mt-1 text-sm text-error">{errors.category_id}</div>}
                             </div>
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-700">Supplier</label>
-                                <select
-                                    value={data.supplier_id}
-                                    onChange={e => setData('supplier_id', e.target.value)}
-                                    className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-info focus:ring-info sm:text-sm text-black"
-                                    required
-                                >
-                                    <option value="">Select a supplier</option>
-                                    {suppliers.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
-                                </select>
+                                <div className="mt-1 text-black ">
+                                    <SearchDropdown
+                                        options={supplierOptions}
+                                        value={data.supplier_id}
+                                        onChange={(value: string) => setData('supplier_id', value)}
+                                        
+                                        placeholder="Select a supplier"
+                                    />
+                                </div>
                                 {errors.supplier_id && <div className="mt-1 text-sm text-error">{errors.supplier_id}</div>}
                             </div>
 

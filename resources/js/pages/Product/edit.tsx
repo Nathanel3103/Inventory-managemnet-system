@@ -1,10 +1,11 @@
 import React from "react";
 import { Head, Link, useForm } from "@inertiajs/react";
+import SearchDropdown from "../../components/SearchDropdown";
 
 type ProductForm = {
   name: string;
-  category_id: number | string;
-  supplier_id: number | string;
+  category_id: string;
+  supplier_id: string;
   price: number;
   quantity: number;
 };
@@ -23,10 +24,13 @@ interface EditProps {
 }
 
 export default function Edit({ product, categories, suppliers }: EditProps) {
+  const categoryOptions = categories.map(c => ({ value: c.id.toString(), label: c.name }));
+  const supplierOptions = suppliers.map(s => ({ value: s.id.toString(), label: s.name }));
+
   const { data, setData, put, processing, errors } = useForm<ProductForm>({
     name: product.name || "",
-    category_id: product.category_id || "",
-    supplier_id: product.supplier_id || "",
+    category_id: product.category_id?.toString() || "",
+    supplier_id: product.supplier_id?.toString() || "",
     price: product.price || 0,
     quantity: product.quantity || 0,
   });
@@ -82,19 +86,14 @@ export default function Edit({ product, categories, suppliers }: EditProps) {
                 <label className="block text-sm font-medium text-gray-700">
                   Category
                 </label>
-                <select
-                  value={data.category_id}
-                  onChange={(e) => setData("category_id", Number(e.target.value))}
-                  className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-info focus:ring-info sm:text-sm text-black"
-                  required
-                >
-                  <option value="">Select a category</option>
-                  {categories.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.name}
-                    </option>
-                  ))}
-                </select>
+                <div className="mt-1 text-black">
+                  <SearchDropdown
+                    options={categoryOptions}
+                    value={data.category_id}
+                    onChange={(value: string) => setData("category_id", value)}
+                    placeholder="Select a category"
+                  />
+                </div>
                 {errors.category_id && (
                   <div className="mt-1 text-sm text-error">{errors.category_id}</div>
                 )}
@@ -105,19 +104,14 @@ export default function Edit({ product, categories, suppliers }: EditProps) {
                 <label className="block text-sm font-medium text-gray-700">
                   Supplier
                 </label>
-                <select
-                  value={data.supplier_id}
-                  onChange={(e) => setData("supplier_id", Number(e.target.value))}
-                  className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-info focus:ring-info sm:text-sm text-black"
-                  required
-                >
-                  <option value="">Select a supplier</option>
-                  {suppliers.map((s) => (
-                    <option key={s.id} value={s.id}>
-                      {s.name}
-                    </option>
-                  ))}
-                </select>
+                <div className="mt-1">
+                  <SearchDropdown
+                    options={supplierOptions}
+                    value={data.supplier_id}
+                    onChange={(value: string) => setData("supplier_id", value)}
+                    placeholder="Select a supplier"
+                  />
+                </div>
                 {errors.supplier_id && (
                   <div className="mt-1 text-sm text-error">{errors.supplier_id}</div>
                 )}
