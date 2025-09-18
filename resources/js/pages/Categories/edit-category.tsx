@@ -77,7 +77,7 @@ export default function EditCategory() {
                                 id="name"
                                 value={data.name}
                                 onChange={(e) => setData("name", e.target.value)}
-                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-info focus:border-info sm:text-sm"
+                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-info focus:border-info sm:text-sm text-black"
                             />
                             {errors.name && (
                                 <div className="text-sm text-red-600 mt-1">
@@ -99,7 +99,7 @@ export default function EditCategory() {
                                 onChange={(e) =>
                                     setData("description", e.target.value)
                                 }
-                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-info focus:border-info sm:text-sm"
+                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-info focus:border-info sm:text-sm text-black"
                             ></textarea>
                             {errors.description && (
                                 <div className="text-sm text-red-600 mt-1">

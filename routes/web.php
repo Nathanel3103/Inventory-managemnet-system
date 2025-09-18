@@ -19,6 +19,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('products', ProductController::class);
     Route::resource('suppliers', SupplierController::class);
     Route::resource('categories', CategoryController::class);
+     
+    Route::resource('reports', \App\Http\Controllers\ReportsController::class);
 });
 
 //Route::middleware(['auth', 'verified'])->group(function () {
@@ -27,7 +29,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 //});
 //Route::resource('products', ProductController::class);
 
-
+ 
 
 
 require __DIR__.'/settings.php';

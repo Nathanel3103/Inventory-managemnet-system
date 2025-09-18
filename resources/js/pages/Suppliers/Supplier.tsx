@@ -119,18 +119,25 @@ export default function Supplier({ suppliers }: PageProps) {
 
 
           {/* Pagination */}
-          <div className="flex space-x-2 mt-4">
-            {suppliers.links.map((link, i) => (
-              <Link
-                key={i}
-                href={link.url ?? "#"}
-                dangerouslySetInnerHTML={{ __html: link.label }}
-                className={`px-3 py-1 rounded border ${
-                  link.active ? "bg-blue-500 text-black" : "bg-gray-100"
-                }`}
-              />
-            ))}
+          <div className="flex items-center justify-center space-x-2 mt-4">
+  {suppliers.links.map((link, i) => (
+    <Link
+      key={i}
+      href={link.url ?? "#"}
+      dangerouslySetInnerHTML={{ __html: link.label }}
+      className={`
+        px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ease-in-out
+        ${
+          link.active
+            ? "bg-blue-600 text-white shadow-md scale-105"
+            : "bg-white text-gray-700 border border-gray-300 hover:bg-blue-50 hover:text-blue-600"
+        }
+        ${link.url ? "" : "cursor-not-allowed opacity-50"}
+      `}
+    />
+  ))}
           </div>
+
         </div>
       </div>
     </AppLayout>

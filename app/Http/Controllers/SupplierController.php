@@ -15,13 +15,14 @@ class SupplierController extends Controller
 {
     $suppliers = Supplier::with('products')
         ->orderBy('name', 'asc')
-        ->paginate(10) // 👈 paginate instead of get()
+        ->paginate(10)   
         ->through(function ($supplier) {
             return [
                 'id' => $supplier->id,
                 'name' => $supplier->name,
                 'contact_details' => $supplier->contact_details,
                 'total_products' => $supplier->products->count(),
+
                 'total_stock_value' => number_format(
                     $supplier->products->sum(fn ($product) => $product->price * $product->quantity),
                     2
@@ -37,7 +38,7 @@ class SupplierController extends Controller
                 }),
             ];
         })
-        ->withQueryString(); // 👈 keeps filters/search on page change
+        ->withQueryString(); 
 
     return Inertia::render('Suppliers/Supplier', [
         'suppliers' => $suppliers,

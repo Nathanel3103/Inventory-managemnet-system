@@ -7,9 +7,12 @@ interface User {
   email: string;
 }
 
+import { type BreadcrumbItem } from '@/types';
+
 interface AppLayoutProps {
   children: React.ReactNode;
   title?: string;
+  breadcrumbs?: BreadcrumbItem[];
 }
 
 interface PageProps {
