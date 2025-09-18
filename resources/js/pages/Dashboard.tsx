@@ -1,5 +1,6 @@
 import React from "react";
-import { usePage, Link } from "@inertiajs/react";
+import { usePage } from "@inertiajs/react";
+import AppLayout from "../components/sidebar";
 
 export default function Dashboard() {
   const { stats, recentProducts } = usePage().props as unknown as {
@@ -15,45 +16,15 @@ export default function Dashboard() {
       category?: { name: string };
     }[];
   };
-  const { url } = usePage();
-   const linkClasses = (path: string) =>
-    url.startsWith(path)
-      ? "border-b-2 border-blue-500 text-blue-600 inline-flex items-center px-1 pt-1 text-sm font-medium"
-      : "border-b-2 border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium";
-
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/*  current navbar */}
-      <nav className="bg-white border-b border-gray-200 fixed w-full z-30 top-0">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex">
-            <div className="flex-shrink-0 flex items-center">
-              <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-            </div>
-            <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-              <Link href="/dashboard" className={linkClasses("/dashboard")}>
-                Home
-              </Link>
-              <Link href="/products" className={linkClasses("/products")}>
-                Products
-              </Link>
-              <Link href="/suppliers" className={linkClasses("/suppliers")}>
-                Suppliers
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-
+    <AppLayout title="Dashboard">
       {/* Main Content */}
-      <main className="pt-16">
+      <main>
 
 
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-white">
           <div className="md:flex md:items-center md:justify-between mb-8">
             <div className="flex-1 min-w-0">
               <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
@@ -160,6 +131,6 @@ export default function Dashboard() {
           </div>
         </div>
       </main>
-    </div>
+    </AppLayout>
   );
 }

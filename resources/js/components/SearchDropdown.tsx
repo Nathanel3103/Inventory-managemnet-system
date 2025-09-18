@@ -18,7 +18,7 @@ const SearchDropdown: React.FC<SearchDropdownProps> = ({ options, value, onChang
       options={options}
       placeholder={placeholder}
       isClearable
-      className="text-sm"
+      className="text-sm bg-amber-200"
     />
   );
 };

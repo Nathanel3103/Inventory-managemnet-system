@@ -19,6 +19,7 @@ export default function View() {
 					<div><strong>Supplier:</strong> {product.supplier?.name ?? '-'}</div>
 					<div><strong>Price:</strong> {product.price}</div>
 					<div><strong>Quantity:</strong> {product.quantity}</div> 
+					<div><strong>Total stock value</strong>${product.stock_value}</div>
 				</div>
 
 				<div className="mt-6 flex justify-end space-x-3">

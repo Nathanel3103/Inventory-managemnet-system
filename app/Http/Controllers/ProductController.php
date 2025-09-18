@@ -79,6 +79,7 @@ class ProductController extends Controller
     {
         //
         $product = Product::with(['category', 'supplier'])->findOrFail($id);
+        $product->stock_value = $product->quantity * $product->price;
 
         return Inertia::render('Product/view', [
             'product' => $product

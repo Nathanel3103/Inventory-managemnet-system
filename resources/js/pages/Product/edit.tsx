@@ -1,6 +1,7 @@
 import React from "react";
 import { Head, Link, useForm } from "@inertiajs/react";
 import SearchDropdown from "../../components/SearchDropdown";
+import AppLayout from "../../components/sidebar";
 
 type ProductForm = {
   name: string;
@@ -24,8 +25,14 @@ interface EditProps {
 }
 
 export default function Edit({ product, categories, suppliers }: EditProps) {
-  const categoryOptions = categories.map(c => ({ value: c.id.toString(), label: c.name }));
-  const supplierOptions = suppliers.map(s => ({ value: s.id.toString(), label: s.name }));
+  const categoryOptions = categories.map((c) => ({
+    value: c.id.toString(),
+    label: c.name,
+  }));
+  const supplierOptions = suppliers.map((s) => ({
+    value: s.id.toString(),
+    label: s.name,
+  }));
 
   const { data, setData, put, processing, errors } = useForm<ProductForm>({
     name: product.name || "",
@@ -41,7 +48,7 @@ export default function Edit({ product, categories, suppliers }: EditProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <AppLayout title="Edit Product">
       <Head title="Edit Product" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="md:flex md:items-center md:justify-between mb-8">
@@ -179,6 +186,6 @@ export default function Edit({ product, categories, suppliers }: EditProps) {
           </form>
         </div>
       </div>
-    </div>
+    </AppLayout>
   );
 }

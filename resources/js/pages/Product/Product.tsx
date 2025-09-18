@@ -1,76 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Head, Link, usePage } from '@inertiajs/react';
+import AppLayout from '../../components/sidebar';
 
 export default function Product() {
-  const { products, flash } = usePage().props as any;
-  const { url } = usePage();
-
-   
-  const [visibleFlash, setVisibleFlash] = useState<{ success?: string; error?: string } | null>(null);
-
-  useEffect(() => {
-    if (flash?.success || flash?.error) {
-      setVisibleFlash(flash);
-      const timer = setTimeout(() => setVisibleFlash(null), 3000);  
-      return () => clearTimeout(timer);
-    }
-  }, [flash]);
-
-  const linkClasses = (path: string) =>
-    url.startsWith(path)
-      ? "border-b-2 border-blue-500 text-blue-600 inline-flex items-center px-1 pt-1 text-sm font-medium"
-      : "border-b-2 border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium";
+  const { products } = usePage().props as any;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <AppLayout title="Products">
       <Head title="Products" />
-
-      {/* Navbar */}
-      <nav className="bg-white border-b border-gray-200 fixed w-full z-30 top-0">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex">
-              <div className="flex-shrink-0 flex items-center">
-                <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-              </div>
-              <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                <Link href="/dashboard" className={linkClasses("/dashboard")}>Home</Link>
-                <Link href="/products" className={linkClasses("/products")}>Products</Link>
-                <Link href="/suppliers" className={linkClasses("/suppliers")}>Suppliers</Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* Flash Messages */}
-      <div className="pt-20 flex justify-center">
-        {visibleFlash?.success && (
-          <div
-            className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative text-center 
-                       transition-opacity duration-500 ease-in-out w-1/2 animate-fadeIn"
-            role="alert"
-          >
-            <span className="block sm:inline">{visibleFlash.success}</span>
-          </div>
-        )}
-        {visibleFlash?.error && (
-          <div
-            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-center 
-                       transition-opacity duration-500 ease-in-out w-1/2 animate-fadeIn"
-            role="alert"
-          >
-            <span className="block sm:inline">{visibleFlash.error}</span>
-          </div>
-        )}
-      </div>
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="md:flex md:items-center md:justify-between mb-8">
           <div className="flex-1 min-w-0">
-            <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+            <h2 className="text-2xl font-bold leading-7 text-white sm:text-3xl sm:truncate">
               Products
             </h2>
           </div>
@@ -178,9 +122,10 @@ export default function Product() {
                 )}
               </tbody>
             </table>
+            
           </div>
         </div>
       </div>
-    </div>
+    </AppLayout>
   );
 }

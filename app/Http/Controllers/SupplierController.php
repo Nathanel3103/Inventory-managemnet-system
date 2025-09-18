@@ -11,37 +11,39 @@ class SupplierController extends Controller
     /**
      * Display a listing of the resource.
      */
-   public function index()
-    {
-        $suppliers = Supplier::with('products')->orderBy('name','asc')->get()->map(function ($supplier) {
+   public function index(Request $request)
+{
+    $suppliers = Supplier::with('products')
+        ->orderBy('name', 'asc')
+        ->paginate(10) // 👈 paginate instead of get()
+        ->through(function ($supplier) {
             return [
                 'id' => $supplier->id,
                 'name' => $supplier->name,
                 'contact_details' => $supplier->contact_details,
-                'total_products' => $supplier->products->count(),  
-
-                'total_stock_value'=>number_format( $supplier->products->sum(function ($product){
-                    return ($product->price) * ($product->quantity);
-                }), 2
-            ),
-
+                'total_products' => $supplier->products->count(),
+                'total_stock_value' => number_format(
+                    $supplier->products->sum(fn ($product) => $product->price * $product->quantity),
+                    2
+                ),
                 'products' => $supplier->products->map(function ($product) {
                     return [
                         'id' => $product->id,
                         'name' => $product->name,
                         'price' => $product->price,
                         'quantity' => $product->quantity,
-                        'stock_value'=>number_format(($product->price)* ( $product->quantity),2)
+                        'stock_value' => number_format($product->price * $product->quantity, 2),
                     ];
-
                 }),
             ];
-        });
+        })
+        ->withQueryString(); // 👈 keeps filters/search on page change
 
-        return Inertia::render('Suppliers/Supplier', [
-            'suppliers' => $suppliers
-        ]);
-    }
+    return Inertia::render('Suppliers/Supplier', [
+        'suppliers' => $suppliers,
+    ]);
+}
+
 
 
 
@@ -83,10 +85,36 @@ class SupplierController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
+   public function show($supplierId)
+{
+    // Get the supplier with products
+    $supplier = Supplier::with('products')->findOrFail($supplierId);
+    
+    $formattedSupplier = [
+        'id' => $supplier->id,
+        'name' => $supplier->name,
+        'contact_details' => $supplier->contact_details,
+        'total_products' => $supplier->products->count(),  
+        'total_stock_value' => number_format(
+            $supplier->products->sum(function ($product) {
+                return ($product->price) * ($product->quantity);
+            }), 2
+        ),
+        'products' => $supplier->products->map(function ($product) {
+            return [
+                'id' => $product->id,
+                'name' => $product->name,
+                'price' => $product->price,
+                'quantity' => $product->quantity,
+                'stock_value' => number_format(($product->price) * ($product->quantity), 2)
+            ];
+        }),
+    ];
+
+    return Inertia::render('Suppliers/viewsupplier', [
+        'supplier' => $formattedSupplier
+    ]);
+}
 
     /**
      * Show the form for editing the specified resource.

@@ -2,12 +2,13 @@
 import React from 'react';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import SearchDropdown from '../../components/SearchDropdown';
+import AppLayout from '../../components/sidebar';
 
 export default function Create() {
 	const page = usePage();
-	const props = page.props as unknown as { 
-        categories?: any[]; 
-        suppliers?: any[]; 
+	const props = page.props as unknown as {
+        categories?: any[];
+        suppliers?: any[];
         selectedSupplierId?: string;
     };
 	const categories = props.categories || [];
@@ -23,7 +24,7 @@ export default function Create() {
 		price: '',
 		quantity: ''
 	});
-    
+
     React.useEffect(() => {
         if (props.selectedSupplierId) {
             setData('supplier_id', props.selectedSupplierId);
@@ -36,7 +37,7 @@ export default function Create() {
 	}
 
 	return (
-        <div className="min-h-screen bg-gray-50">
+        <AppLayout title="Add Product">
             <Head title="Add Product" />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -150,7 +151,7 @@ export default function Create() {
                     </form>
                 </div>
             </div>
-        </div>
-    );
-}
+    </AppLayout>
+    );}
+
 
